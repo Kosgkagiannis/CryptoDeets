@@ -41,7 +41,16 @@ object ApiModule {
                 val response = chain.proceed(chain.request())
 
                 Timber.d("${response.headers()}")
-
+                
+                when(response.code()) {
+                    429 -> {
+                        setMaxRequestsLimitReached()
+                        throw TemporarilyUnavailableNetworkServiceException(
+                            serviceName = "CoinGecko"
+                        )
+                    }
+                    else -> response
+                }
                 
             }
             .cache(cache)
