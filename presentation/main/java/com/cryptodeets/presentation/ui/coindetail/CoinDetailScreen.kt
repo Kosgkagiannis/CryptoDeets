@@ -114,16 +114,17 @@ fun CoinDetailScreen(
                             }
                         }
                         is CoinMarketDataState.Error -> {
-                            Text(
+                             Text(
                                 text = "Error loading data.",
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .wrapContentHeight(align = Alignment.CenterVertically)
-                                    .padding(20.dp),
-                                color = Color.Red,
+                                    .padding(16.dp),
+                                color = StocksDarkPrimaryText,
                                 textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyMedium
                             )
+
 
                             LaunchedEffect(key1 = snackbarHostState) {
 
@@ -204,12 +205,12 @@ fun SectionInfoItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
+       Text(
             text = name,
             color = StocksDarkSecondaryText,
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyMedium,
             fontFamily = FontFamily(Font(R.font.sixty_font2)),
-            fontSize = 14.sp
+            fontSize = 9.sp
         )
 
         Spacer(modifier = Modifier.size(8.dp))
