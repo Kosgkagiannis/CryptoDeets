@@ -1,6 +1,5 @@
 package com.cryptodeets.presentation.ui.coindetail
 
-import android.graphics.Color
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -105,6 +104,7 @@ fun CoinDetailScreen(
                                 if (pair.second.isEmpty()) {
                                     InfoTitle(title = pair.first)
                                 } else {
+                                    // Render section item
                                     SectionInfoItem(
                                         name = pair.first,
                                         value = pair.second,
@@ -114,8 +114,8 @@ fun CoinDetailScreen(
                             }
                         }
                         is CoinMarketDataState.Error -> {
-                             Text(
-                                text = "Error loading data.",
+                            Text(
+                                text = "Error loading market data.",
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .wrapContentHeight(align = Alignment.CenterVertically)
@@ -124,7 +124,6 @@ fun CoinDetailScreen(
                                 textAlign = TextAlign.Center,
                                 style = MaterialTheme.typography.bodyMedium
                             )
-
 
                             LaunchedEffect(key1 = snackbarHostState) {
 
@@ -147,37 +146,13 @@ fun CoinDetailScreen(
                                     .fillMaxWidth()
                                     .wrapContentHeight(align = Alignment.CenterVertically)
                                     .padding(16.dp),
-                                text = "Loading data..."
+                                text = "Loading market data..."
                             )
                         }
                     }
 
                 }
-            }
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .requiredHeight(190.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.End
-                ) {
 
-                    when (val state = viewModel.state.coinMarketChartState) {
-                        is CoinMarketChartState.Success -> {
-
-
-                            Spacer(modifier = Modifier.size(16.dp))
-
-
-                            LaunchedEffect(null) {
-                                viewModel.showMarketChart()
-                            }
-
-                        }
-                    
-                    }
-                }
 
                 Spacer(modifier = Modifier.size(16.dp))
 
@@ -205,7 +180,7 @@ fun SectionInfoItem(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-       Text(
+        Text(
             text = name,
             color = StocksDarkSecondaryText,
             style = MaterialTheme.typography.bodyMedium,
@@ -240,10 +215,11 @@ fun PriceText(
     modifier: Modifier,
     price: String?
 ) {
+
     Text(
         modifier = modifier.alpha(
             alpha = if (price == null) 0f else 1f
-        ),
+        ).padding(horizontal = 8.dp, vertical = 8.dp),
         textAlign = TextAlign.Start,
         text = price ?: "000000000",
         fontWeight = FontWeight.Bold,
@@ -278,6 +254,7 @@ fun Header(coinDetailMainUiData: CoinUiItem) {
 
         Spacer(modifier = Modifier.size(16.dp))
 
+        // Name
         Row(
             horizontalArrangement  = Arrangement.Center
         ) {
@@ -314,28 +291,44 @@ fun Price(state: CoinMarketDataState, percentageChange: CoinMarketChartState) {
         else -> StocksDarkPrimaryText
     }
 
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+
         PriceText(
-            modifier = Modifier.weight(1f).padding(start = 8.dp),
+            modifier = Modifier.padding(top = 8.dp, bottom = 4.dp),
             price = price
         )
 
-        Text(
-            text = percentage ?: "",
-            style = MaterialTheme.typography.titleMedium,
-            color = percentageColor,
-            modifier = Modifier
-                .weight(0.5f)
-                .padding(horizontal = defaultHorizontalPadding),
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.End,
-            maxLines = 1,
-            fontFamily = FontFamily(Font(R.font.sixty_font2)),
-            fontSize = 11.sp
-        )
+        // 24-hour Price Change
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = "24-hour Price Change: ",
+                style = MaterialTheme.typography.bodyMedium,
+                color = StocksDarkPrimaryText,
+                modifier = Modifier.padding(end = 8.dp),
+                textAlign = TextAlign.End,
+                fontFamily = FontFamily(Font(R.font.sixty_font2)),
+                fontSize = 11.sp
+            )
+
+            Text(
+                text = percentage ?: "",
+                style = MaterialTheme.typography.titleMedium,
+                color = percentageColor,
+                fontWeight = FontWeight.Bold,
+                maxLines = 1,
+                fontFamily = FontFamily(Font(R.font.sixty_font2)),
+                fontSize = 11.sp
+            )
+
+        }
     }
 }
+
