@@ -8,26 +8,15 @@ enum class Ordering {
     PriceChangeAsc,
     PriceChangeDesc,
     NameAsc,
-    NameDesc,
-    VolumeAsc,
-    VolumeDesc,
-    DividendYieldAsc,
-    DividendYieldDesc
-};
+    NameDesc
+}
 
 
 enum class Currency {
     USD,
     EUR,
-    GBP,
-    JPY,
-    AUD,
-    CAD,
-    CHF,
-    CNY,
-    BTC,
-    ETH
-};
+    BTC
+}
 
 enum class TimeRange {
     Day,
